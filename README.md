@@ -2,12 +2,12 @@
 LRU Cache Implementation
 
 By:
-Vijay Dwivedi     -     2020CSB1140
-Vinay Kumar       -     2020CSB1141
-Yadwinder Singh   -     2020CSB1143
+Vijay Dwivedi     -     2020csb1140@iitrpr.ac.in
+Vinay Kumar       -     2020csb1141@iitrpr.ac.in
+Yadwinder Singh   -     2020csb1143@iitrpr.ac.in
 
 Mentor:
-Ravi Bhatt        -     2020aim1008
+Ravi Bhatt        -     2020aim1008@iitrpr.ac.in
 
 Files:
 1) LruCache.c 
