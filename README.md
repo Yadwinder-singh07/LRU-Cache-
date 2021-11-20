@@ -2,7 +2,7 @@
 LRU Cache Implementation
 
 By:
-Group No.: 10
+    Group No.: 10
 
 Vijay Dwivedi     -     2020csb1140@iitrpr.ac.in
 Vinay Kumar       -     2020csb1141@iitrpr.ac.in
