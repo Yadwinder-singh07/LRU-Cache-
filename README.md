@@ -40,6 +40,9 @@ At the end, it prints LRU (least recently used) URL as well as MRU (most recentl
 
 Program gives a "output.txt" file in which all the results are present.
 
+Debugging:
+The program in output file gives you the elements of cache at every step, hence it show the whole process how the cache changes everytime you add a new string. It gives you an idea whether the program runs correctly or not.
+
 
 
       
