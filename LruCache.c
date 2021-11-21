@@ -51,3 +51,57 @@ struct Queue *create_queue(int length_of_cache)
 
     return queue;
 }
+
+void referencePage(struct Queue *queue, struct hash_table *buckets[], char str[])
+{
+    struct queue_db_list *temp = queue->front;
+    if (hash_search(buckets, str) == 1)
+    {
+        while (temp)
+        {
+            if (!strcmp(temp->queue_data, str))
+            {
+                break;
+            }
+            temp = temp->next;
+        }
+
+        if (!strcmp(temp->queue_data, (queue->front)->queue_data))
+        {
+            queue->front = temp->next;
+            (temp->next)->prev = NULL;
+            temp->next = NULL;
+            temp->prev = queue->rear;
+            (queue->rear)->next = temp;
+            queue->rear = temp;
+        }
+        else if (!strcmp(temp->queue_data, (queue->rear)->queue_data))
+        {
+            temp = queue->rear;
+        }
+        else
+        {
+            (temp->prev)->next = temp->next;
+            (temp->next)->prev = temp->prev;
+            temp->next = NULL;
+            temp->prev = queue->rear;
+            (queue->rear)->next = temp;
+            queue->rear = temp;
+        }
+    }
+
+    else
+    {
+        hash_insert(buckets, str);
+        if ((queue->count) >= (queue->size))
+        {
+            // printf("%s",dequeue(queue));
+            hash_delete(buckets, dequeue(queue));
+            enqueue(queue, str);
+        }
+        else
+        {
+            enqueue(queue, str);
+        }
+    }
+}
