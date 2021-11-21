@@ -203,6 +203,21 @@ char *dequeue(struct Queue *ref)
     ref->count--;
     return (char *)(temp->queue_data);
 }
+
+void queue_display(struct Queue *queue)
+{
+    struct queue_db_list *node = queue->front;
+    printf("Queue Element: \n");
+    while (node != NULL)
+    {
+        printf(" %s ", node->queue_data);
+        printf("\n");
+        node = node->next;
+    }
+    printf("\n");
+    // printf(" >");
+}
+
 void referencePage(struct Queue *queue, struct hash_table *buckets[], char str[])
 {
     struct queue_db_list *temp = queue->front;
