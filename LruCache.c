@@ -52,7 +52,6 @@ struct Queue *create_queue(int length_of_cache)
     return queue;
 }
 
-
 int value(char str[])
 {
     int optimum_hashing = 0;
@@ -255,5 +254,77 @@ void referencePage(struct Queue *queue, struct hash_table *buckets[], char str[]
         {
             enqueue(queue, str);
         }
+    }
+}
+
+int main()
+{
+    in = freopen("input.txt", "r", stdin);
+    out = freopen("output.txt", "w", stdout);
+    if (in == NULL)
+    {
+        char wrong[100] = "Emtpy File! Nothing to Read.";
+        char wrong2[100] = "Closing...";
+        fputs(wrong, out);
+        fputs("\n", out);
+        fputs(wrong2, out);
+        return 0;
+    }
+    else
+    {
+        scanf("%d", &length_cache);
+        char str[INF] = "0";
+        struct Queue *queue_ptr = create_queue(length_cache);
+        struct hash_table *buckets[length_cache];
+        for (int i = 0; i < length_cache; i++)
+        {
+            buckets[i] = NULL;
+        }
+        int count = 0;
+        while (1)
+        {
+
+            scanf("%s", str);
+            if (!(str[0] == '-' && str[1] == '1' && str[2] == '\0'))
+            {
+                count++;
+                referencePage(queue_ptr, buckets, str);
+                if (count == 1)
+                {
+                    printf("After 1st input: ");
+                }
+                else if (count == 2)
+                {
+                    printf("After 2nd input: ");
+                }
+                else if (count == 3)
+                {
+                    printf("After 3rd input: ");
+                }
+                else
+                {
+                    printf("After %dth input: ", count);
+                }
+                queue_display(queue_ptr);
+                printf("\n");
+            }
+            else
+            {
+                break;
+            }
+        }
+        printf("\n");
+        printf("At the End, Least recently accessed element in cache is: ");
+        printf("\n");
+        printf("%s", queue_ptr->front->queue_data);
+        printf("\n");
+        printf("\n");
+        printf("At the End, most recently accessed element in cache is: ");
+        printf("\n");
+        printf("%s", queue_ptr->rear->queue_data);
+        // queue_display(queue_ptr);
+        fclose(in);
+        fclose(out);
+        return 0;
     }
 }
