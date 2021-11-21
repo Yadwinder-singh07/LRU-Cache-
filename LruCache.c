@@ -17,7 +17,6 @@ FILE *in;
 FILE *out;
 
 int length_cache;
-int length_cache;
 
 struct queue_db_list
 {
