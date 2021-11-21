@@ -52,6 +52,110 @@ struct Queue *create_queue(int length_of_cache)
     return queue;
 }
 
+
+int value(char str[])
+{
+    int optimum_hashing = 0;
+    int sl = strlen(str);
+    for (int i = sl; i >= sl - 5 && i >= 0; i--)
+    {
+        optimum_hashing += (int)str[i];
+    }
+    return optimum_hashing;
+}
+
+void hash_insert(struct hash_table *buckets[], char str[])
+{
+    int t = value(str) % length_cache;
+    if (buckets[t] == NULL) // If the slot is empty make an struct Queue with its data equals key.
+    {
+        struct hash_table *new;
+        new = (struct hash_table *)malloc(sizeof(struct hash_table));
+        strcpy(new->data, str);
+        new->left = NULL;
+        new->right = NULL;
+        buckets[t] = new;
+    }
+
+    else
+    { // buckets[t] is struct Queue of list
+        // make a new struct Queue
+        struct hash_table *new_node = (struct hash_table *)malloc(sizeof(struct hash_table));
+
+        // update data
+        strcpy(new_node->data, str);
+
+        // Make right of new struct Queue as head and left as NULL
+        new_node->right = buckets[t];
+        new_node->left = NULL;
+
+        // change left of head struct Queue to new struct Queue
+        if (buckets[t] != NULL)
+            buckets[t]->left = new_node;
+
+        // move the head to point to the new struct Queue
+        buckets[t] = new_node;
+    }
+}
+
+int hash_search(struct hash_table *buckets[], char str[])
+{
+    int t = value(str) % length_cache;
+
+    struct hash_table *temp = buckets[t]; // go to the slot where it can be found which we know from the hash function
+    while (temp)                          // traverse the list and check if the element is present or not
+    {
+        if (!strcmp(temp->data, str))
+        {
+            return 1;
+        }
+        temp = temp->right;
+    }
+
+    if (temp == NULL)
+    {
+        return 0;
+    }
+}
+
+void hash_delete(struct hash_table *buckets[], char str[])
+{
+    int t = value(str) % length_cache;
+    struct hash_table *temp = buckets[t];
+    while (temp)
+    {
+        if (!strcmp(temp->data, str))
+        {
+            break;
+        }
+        temp = temp->right;
+    }
+
+    if (temp == buckets[t]) // if the element is at head of list then move the head to its right
+    {
+        buckets[t] = buckets[t]->right;
+        free(temp);
+    }
+
+    else if (temp->right == NULL) // if the element is at last then move the pointer to its left
+    {
+        temp = temp->left;
+        temp->right = NULL;
+    }
+
+    else // if it is in between then make the right's left equal to left and left's right equal to right
+    {
+        struct hash_table *t1 = temp->right;
+        struct hash_table *t2 = temp->left;
+        t1->left = t2;
+        t2->right = t1;
+        free(temp);
+    }
+}
+
+
+
+
 void referencePage(struct Queue *queue, struct hash_table *buckets[], char str[])
 {
     struct queue_db_list *temp = queue->front;
