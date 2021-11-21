@@ -152,10 +152,58 @@ void hash_delete(struct hash_table *buckets[], char str[])
         free(temp);
     }
 }
+struct queue_db_list *getQNode(char str[], struct queue_db_list *prev)
+{
+    // Create dynamic memory of QNode
+    struct queue_db_list *ref = (struct queue_db_list *)malloc(sizeof(struct queue_db_list));
+    if (ref == NULL)
+    {
+        // Failed to create memory
+        return NULL;
+    }
+    strcpy(ref->queue_data, str);
+    // ref->data = data;
+    ref->next = NULL;
+    ref->prev = prev;
+    return ref;
+}
 
+void enqueue(struct Queue *ref, char str[])
+{
+    // Create a new struct Queue
+    struct queue_db_list *q = getQNode(str, ref->rear);
+    if (ref->front == NULL)
+    {
+        // When adding a first struct Queue of queue
+        ref->front = q;
+        ref->count = 1;
+    }
+    else
+    {
+        ref->rear->next = q;
+        ref->count++;
+    }
+    ref->rear = q;
+}
 
-
-
+char *dequeue(struct Queue *ref)
+{
+    struct queue_db_list *temp = ref->front;
+    if (ref->front == ref->rear)
+    {
+        // When queue contains only one struct Queue
+        ref->rear = NULL;
+        ref->front = NULL;
+    }
+    else
+    {
+        ref->front = ref->front->next;
+        ref->front->prev = NULL;
+    }
+    // Change queue size
+    ref->count--;
+    return (char *)(temp->queue_data);
+}
 void referencePage(struct Queue *queue, struct hash_table *buckets[], char str[])
 {
     struct queue_db_list *temp = queue->front;
